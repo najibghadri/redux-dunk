@@ -37,9 +37,26 @@ NoOp() - effect that does nothing
 ## Testing
 ## Comparison with redux-loop
 
+Every dunk is a loop but not every loop is a dunk:
+Here is how you can create Loop in 10 lines with Dunk:
+
+`
+function LoopCmd(
+    promise: (...params: Params) => Promise<ReturnType>,
+    successAction: ActionCreator,
+    failedAction: ActionCreator,
+) {
+    return EffectCreator((...params: Params) => storeApi => {
+        return promise(...params)
+            .then(res => storeApi.dispatch(successAction(...res)))
+            .catch(res => storeApi.dispatch(failedAction(...res)));
+    });
+}
+`
+
 **Loop command shape:**
 
-... recreate Loop with LoopCmd
+
 
 ### Commonalities
 
