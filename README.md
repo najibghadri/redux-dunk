@@ -40,7 +40,7 @@ NoOp() - effect that does nothing
 Every dunk is a loop but not every loop is a dunk:
 Here is how you can create Loop in 10 lines with Dunk:
 
-`
+```
 function LoopCmd(
     promise: (...params: Params) => Promise<ReturnType>,
     successAction: ActionCreator,
@@ -52,7 +52,7 @@ function LoopCmd(
             .catch(res => storeApi.dispatch(failedAction(...res)));
     });
 }
-`
+```
 
 **Loop command shape:**
 
