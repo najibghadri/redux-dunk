@@ -26,6 +26,14 @@ return dunk(newState, Effects.reorderTopic(action.payload.topicId, action.payloa
 - getState always returns the latest state in the store
 - avoid never-ending loops (action->reducer->effect->action->..)
 
+## Api Reference
+
+Delay(ms, effect) - run effect after ms delay
+Sequence(…effects) - run effects in order waiting for promise to resolve. if one fails the effect fails
+Par(…effects) - same as dunk(state, …effects), starts running effects parallelly
+Catch(effect, failEffect) try to run effect if it fails run the failEffect
+NoOp() - effect that does nothing
+
 ## Testing
 ## Comparison with redux-loop
 
