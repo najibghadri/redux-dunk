@@ -54,9 +54,7 @@ function LoopCmd(
 }
 ```
 
-**Loop command shape:**
-
-
+Dunk builds on the same architecture as loop, which is the one described above.
 
 ### Commonalities
 
@@ -67,15 +65,16 @@ function LoopCmd(
 
 ### Pros cons with loop
  - Effects are composable, it's a monad basically
- - Robust effect api: extraParams, getState, dispatch
- - You are free in your effects, no babysitting success/fail action restrictions
+ - Effect api to your needs: any extra params and `getState`, `dispatch`
+ - You are free in your effects, no babysitting success/fail action restrictions, dispatch as many actions as you want
  - Understandable effects: explicit dispatch calls, no mind  wrapped args, no spaghetti thinking
- - Smaller library, same functionality
- - Cool effect creator helpers out of the box: Delay, Cancelable, TakeOne, LoopCommand, Retry, Poll, Race
+ - Composable effect creator helpers out of the box: `Delay`, `Sequence`, `Par`, `Catch` and more coming( `Cancelable`, `TakeOne`, `LoopCommand`, `Retry`, `Poll`, `Race`) all of these return an Effect.
+ - It's just a middleware. While loop installs as an enhancer, we found there is no need for that. 
+ - Calling `loop` returns a modified object that contains the effects, but we found there is no need for that. `dunk` simply returns the state object it got, and queues the effects in the internal queue.
+ - No need to `liftState`. While the `loop` function changes the 
  - Written in Typescript
 
 ### Cons over loop
-- Effect type doesn't tell which actions will be dispatched (because they are within the code body)
-- More freedom in effects might lead to bad code?
-- Loop is strict
+- Effect type doesn't tell which actions will be dispatched if any (because you write whatever you want in the effect body)
+- More freedom in effects might lead to bad code? Loop has a strict (and limited) view on effects which might or might not work out for some.
 
