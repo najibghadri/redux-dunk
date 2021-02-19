@@ -91,7 +91,7 @@ Effect composers, creation helpers. All of these return an Effect so you can com
 
 ## Comparison with redux-loop ➿
 
-Every dunk is a loop but not every loop is a dunk:
+Every loop is a dunk but not every dunk is a loop:
 
 Shape of a Loop Cmd:
 ```typescript 
