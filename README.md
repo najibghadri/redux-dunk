@@ -98,7 +98,7 @@ Each of these return an Effect so you can compose them.
 - Sequence(…effects) - run effects in order waiting for promise to resolve. if one fails the effect fails
 - Par(…effects) - same as dunk(state, …effects), starts running effects parallelly
 - Catch(effect, failEffect) try to run effect if it fails run the failEffect
-- NoOp() - effect that does nothing
+- Do() - i.e No Op, effect that does nothing, you can start a chain description with this, use it wherever
 
 ## Todos
  - Effect testers
