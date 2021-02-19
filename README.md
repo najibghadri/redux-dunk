@@ -40,7 +40,7 @@ return dunk(newState, Effects.reorderTopic(topicId, targetIdx)); - effect create
 
 note
 
-- Effects are always scheduled after the reducer has finished.
+- Effects are always scheduled to run after the reducer round that scheduled them has finished.
 - Effects are async functions
 - Effects run deferred async (end of current event-loop tick)
 - getState always returns the latest state in the store, not the one it was when the effect was scheduled (this is 👍 )
