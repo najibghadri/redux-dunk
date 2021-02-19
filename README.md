@@ -54,6 +54,10 @@ return dunk(newState, Effects.reorderTopic(topicId, targetIdx)); - effect create
         return dunk(state, ...effects);
     };  - compose effects to describe your flow in a testable way
 ````
+With dunk you can express business logic 
+by composing small effects together. 
+This way you don't have to bloat your code with unnecessary effect -> action -> reducer -> effect loops, but you can directly chain or sequence effects. 
+
 ## How effects are run with the redux store?
 
  1. There is a dispatch(action) somewhere
