@@ -72,7 +72,7 @@ note
 - Effect(effect) - let's you easily create an effect, shape: ` async ({ dispatch, getState }) => any`
 - EffectCreator(effectCreator) - easily create an effect creator, shape: `(...extraParams) => async ({ dispatch, getState }) => any`
 
-### Effect helpers. All of these return an Effect so you can compose them.
+Effect composers, creation helpers. All of these return an Effect so you can compose them.
 - Delay(ms, effect) - run effect after ms delay
 - Sequence(…effects) - run effects in order waiting for promise to resolve. if one fails the effect fails
 - Par(…effects) - same as dunk(state, …effects), starts running effects parallelly
