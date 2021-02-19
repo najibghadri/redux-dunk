@@ -16,9 +16,7 @@ Shape of an EffectCreator:
 Example effects (from Zoom App codebase): 
 ```
 const setUpZoomSdk = Effect(async ({ dispatch }) => {
-    const configResponse = await zoomSdk.config({
-        capabilities: ['openUrl', 'onShareApp', 'onSendAppInvitation', 'getMeetingContext'],
-    });
+    const configResponse = await zoomSdk.config({});
     dispatch(actions.setRunningContext(configResponse.runningContext));
 });
 
