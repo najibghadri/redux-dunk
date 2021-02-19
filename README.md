@@ -13,6 +13,31 @@ Shape of an EffectCreator:
 
 `(...extraParams) => async ({ dispatch, getState }) => any`
 
+Example effects (from Zoom App codebase): 
+```
+const setUpZoomSdk = Effect(async ({ dispatch }) => {
+    const configResponse = await zoomSdk.config({
+        capabilities: ['openUrl', 'onShareApp', 'onSendAppInvitation', 'getMeetingContext'],
+    });
+    dispatch(actions.setRunningContext(configResponse.runningContext));
+});
+
+const setUpPusher = EffectCreator((userId: UserId) => async ({ dispatch }) => {
+    const pvHandler: PVControllerHandler = {
+        onSession: session => {
+            dispatch(actions.updateSession(session));
+        },
+        onConnected: () => {
+            dispatch(actions.setConnected(true));
+        },
+        onDisconnected: () => {
+            dispatch(actions.setConnected(false));
+        },
+    };
+    connectPusherPvController(userId, pvHandler);
+});
+```
+
 Usage examples in a reducer:
 ```
 return dunk(newState) - does nothing interesting
