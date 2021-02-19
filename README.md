@@ -4,7 +4,7 @@
 
 ---
 
-Effect management in redux, inspired by loop
+🏀 Effect management in redux, inspired by loop ➿ 
 
 Shape of an Effect:
 
@@ -20,13 +20,19 @@ return dunk(newState) - does nothing interesting
 return dunk(newState, Effects.doTheThing) - paramterless Effect
 return dunk(newState, Effects.reorderTopic(action.payload.topicId, action.payload.to)); - effect created with parameters
 
-## How effects are run with the redux store
-This is 
+## How effects are run with the redux store?
+
+ 1. There is a dispatch(action) somewhere
+ 2. action goes to reducer 
+ 3. reducer creates new state, and calls dunk(newState, ...effects) which schedules effects in the queue to run later.
+ 4. reducer finishes and dunk as a next middleware gets called
+ 5. dunk schedules the effects in the queue to run in the end of this event-loop tick (with promises in the job queue)
+ 6. effects run and might dispatch actions for the next redux round, or read the state whenever.
 
 - Effects are always scheduled after the reducer has finished.
 - Effects run async (end of current event-loop tick)
-- getState always returns the latest state in the store
-- avoid never-ending loops (action->reducer->effect->action->..)
+- getState always returns the latest state in the store, not the one it was when the effect was scheduled (this is 👍 )
+- avoid never-ending loops (action->reducer->effect->action->..) ⚠️ 
 
 ## Api Reference
 
@@ -58,14 +64,14 @@ function LoopCmd(
 
 Dunk builds on the same architecture as loop, which is the one described above.
 
-### Commonalities
+### Commonalities 🤝 
 
 - Same architecture **action -> reducer -> effect** separation (effect = command in loop)
 - Same flow: reducer changes state first, *then* dunked Effect start running (however an Effect can be composed from Effects)
 - Typed Effects/Commands
 - Redux store can be used the same way
 
-### Pros cons with loop
+### Pros cons with loop 🏀 
  - Effects are composable, it's a monad basically
  - Effect api to your needs: any extra params and `getState`, `dispatch`
  - You are free in your effects, no babysitting success/fail action restrictions, dispatch as many actions as you want
@@ -75,7 +81,7 @@ Dunk builds on the same architecture as loop, which is the one described above.
  - Calling `loop` returns a modified object that contains the effects, but we found there is no need for that. `dunk` simply returns the state object it got, and queues the effects in the internal queue.
  - Written in Typescript
 
-### Cons over loop
+### Cons over loop ➿ 
 - Effect type doesn't tell which actions will be dispatched if any (because you write whatever you want in the effect body)
 - More freedom in effects might lead to bad code? Loop has a strict (and limited) view on effects which might or might not work out for you.
 
