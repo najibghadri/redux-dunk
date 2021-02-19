@@ -71,6 +71,8 @@ note
 
 - Effect(effect) - let's you easily create an effect, shape: ` async ({ dispatch, getState }) => any`
 - EffectCreator(effectCreator) - easily create an effect creator, shape: `(...extraParams) => async ({ dispatch, getState }) => any`
+
+### Effect helpers. All of these return an Effect so you can compose them.
 - Delay(ms, effect) - run effect after ms delay
 - Sequence(…effects) - run effects in order waiting for promise to resolve. if one fails the effect fails
 - Par(…effects) - same as dunk(state, …effects), starts running effects parallelly
@@ -79,7 +81,7 @@ note
 
 ## Todos
  - Effect testers
- - Effect helpers
+ - More effect helpers (`Cancelable`, `TakeOne`, `LoopCommand`, `Retry`, `Poll`, `Race`)
 
 ## Comparison with redux-loop ➿
 
@@ -126,7 +128,7 @@ The high level concepts of loop apply to dunk: https://redux-loop.js.org/
  - Effect api to your needs: any extra params and `getState`, `dispatch`
  - You are free in your effects, no babysitting success/fail action restrictions, dispatch as many actions as you want
  - Understandable effects: explicit dispatch calls, no mind wrapped args and implicit calls of dispatch
- - Composable effect creator helpers out of the box: `Delay`, `Sequence`, `Par`, `Catch` and more coming( `Cancelable`, `TakeOne`, `LoopCommand`, `Retry`, `Poll`, `Race`) all of these return an Effect.
+ - Composable effect creator helpers out of the box: `Delay`, `Sequence`, `Par`, `Catch` and more coming, all of these return an Effect.
  - It's just a middleware. While loop installs as an enhancer, we found there is no need for that. 
  - Calling `loop` returns a modified object that contains the effects, but we found there is no need for that. `dunk` simply returns the state object it got, and queues the effects in the internal queue.
  - Written in Typescript, smaller codebase
