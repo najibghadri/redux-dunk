@@ -27,12 +27,6 @@ const setUpPusher = EffectCreator((userId: UserId) => async ({ dispatch }) => {
         onSession: session => {
             dispatch(actions.updateSession(session));
         },
-        onConnected: () => {
-            dispatch(actions.setConnected(true));
-        },
-        onDisconnected: () => {
-            dispatch(actions.setConnected(false));
-        },
     };
     connectPusherPvController(userId, pvHandler);
 });
