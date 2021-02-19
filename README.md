@@ -104,8 +104,9 @@ Each of these return an Effect so you can compose them.
 
 ## Todos
  - Effect testers
- - More effect helpers (`Chain`, `Cancelable`, `TakeOne`, `Retry`, `Poll`, `Race`)
- - Dot notation support: `TestEffects.testEff1.delay(100).then(TestEffects.testEff2).then(TestEffects.testEff3).catch(eff4)`
+ - More effect helpers (`Chain`, `Retry`, `Poll`, `Race`)
+ - `Cancelable`, `TakeOne` and other action trigger based complex Effects. (like saga)
+ - Implement Effect Api: `TestEffects.testEff1.sleep(100).then(TestEffects.testEff2).then(TestEffects.testEff3).catch(eff4)`
  - Use Effect interface type in all exported functions except Effect and EffectCreator.
 
 
