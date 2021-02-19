@@ -69,6 +69,8 @@ This way you don't have to bloat your code with unnecessary effect -> action -> 
 
 note
 
+- Effect's can't (and shouldn't) be called from a reducer. They are run by dunk and each effect is provided the store api (dispatch and getState) upon running.
+- Remember Effect if an async function, EffectCreator is a higher-order function that returns an Effect.
 - Effects are always scheduled to run after the reducer round that scheduled them has finished.
 - Effects are async functions
 - Effects run deferred async (end of current event-loop tick)
@@ -77,10 +79,21 @@ note
 
 ## Api Reference
 
-- Effect(effect) - let's you easily create an effect, shape: ` async ({ dispatch, getState }) => any`
+**Effect creators**
 - EffectCreator(effectCreator) - easily create an effect creator, shape: `(...extraParams) => async ({ dispatch, getState }) => any`
+- Effect(effect) - let's you easily create an effect, shape: ` async ({ dispatch, getState }) => any`
 
-Effect composers, creation helpers. All of these return an Effect so you can compose them.
+You use can use Effect(...) to create your effect if it has no parameters, and EffectCreator if there are parameters. 
+To avoid confusion when working in team it may be better to enforce using EffectCreator only, however accidental calls are not possible since
+
+When you use these you get the following Monadic api with Effects
+**Effect Api**
+- then
+- catch
+- fold
+
+**Effect composers:**
+Each of these return an Effect so you can compose them.
 - Delay(ms, effect) - run effect after ms delay
 - Sequence(…effects) - run effects in order waiting for promise to resolve. if one fails the effect fails
 - Par(…effects) - same as dunk(state, …effects), starts running effects parallelly
@@ -134,7 +147,7 @@ The high level concepts of loop apply to dunk: https://redux-loop.js.org/
 - Redux store can be used the same way
 
 ### Pros over loop 🏀 
- - Effects are composable (but it's not a monad YET)
+ - Effects are composable and Monadic ✊
  - Effect api to your needs: any extra params and `getState`, `dispatch`
  - You are free in your effects, no babysitting success/fail action restrictions, dispatch as many actions as you want
  - Understandable effects: explicit dispatch calls, no mind wrapped args and implicit calls of dispatch
