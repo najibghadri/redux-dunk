@@ -79,7 +79,7 @@ note
 
 ## Api Reference
 
-**Effect creators**
+#### Effect creators
 - EffectCreator(effectCreator) - easily create an effect creator, shape: `(...extraParams) => async ({ dispatch, getState }) => any`
 - Effect(effect) - let's you easily create an effect, shape: ` async ({ dispatch, getState }) => any`
 
@@ -87,14 +87,14 @@ You use can use Effect(...) to create your effect if it has no parameters, and E
 To avoid confusion when working in team it may be better to enforce using EffectCreator only, however accidental calls are not possible since
 
 When you create effects with these two helpers you get Effects with Monadic EffectApi  
-**Effect Api**
+#### Effect Api
 - then
 - fmap
 - catch
 - fold
 - sleep
 
-**Effect composers:**
+#### Effect composers
 Each of these return an Effect so you can compose them.
 - Delay(ms, effect) - run effect after ms delay
 - Sequence(…effects) - run effects in order waiting for promise to resolve. if one fails the effect fails
