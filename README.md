@@ -112,5 +112,5 @@ The high level concepts of loop apply to dunk: https://redux-loop.js.org/
 
 ### Cons compared to loop ➿
 - Battle-tested library
-- Effect type doesn't tell which actions will be dispatched if any (because you write whatever you want in the effect body)
-- More freedom in effects might lead to bad code? Loop has a strict (and limited) view on effects which might or might not work out for you.
+- A Dunk Effect's type doesn't tell which actions will be dispatched if any (because you write whatever you want in the effect body), however a loop command tells you about the next actions in it's type.
+- More freedom in effects might lead to bad code? Loop has a strict view on effects which might work for you and might keep your codebase better structured if there are many developers working on it.
