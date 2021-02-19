@@ -34,7 +34,7 @@ const setUpPusher = EffectCreator((userId: UserId) => async ({ dispatch }) => {
 });
 ```
 
-Usage examples in a reducer (from ZoomApp codebase):
+Now dunk effects. Usage examples in a reducer (from ZoomApp codebase):
 ```typescript
 return dunk(newState) - does nothing interesting
 return dunk(newState, Effects.doTheThing) - paramterless Effect
@@ -162,3 +162,13 @@ The high level concepts of loop apply to dunk: https://redux-loop.js.org/
 - Battle-tested library
 - A Dunk Effect's type doesn't tell which actions will be dispatched if any (because you write whatever you want in the effect body), however a loop command tells you about the next actions in it's type.
 - More freedom in effects might lead to bad code? Loop has a strict view on effects which might work for you and might keep your codebase better structured if there are many developers working on it.
+
+## Questions
+#### Why Effect is an interface not a class?
+
+Creating an Effect with Effect(...) and EffectCreator(...) returns you an object with two interfaces implemented: Effect and EffectApi. 
+There are a couple of reasons why Effect should be an interface.
+1. An effect should be a function that can be called like effect(storeapi) but it can also have properties, like the EffectApi. This is because functions are objects too in JS, and we should take advantage of this.
+2. Effects should be kept lightweight.
+3. It's better for the user, better DX. The user should be able to dunk an effect function so long the shape is an Effect. This leads to readable code.
+4. In my opinion using interfaces is better for Dev Experience, because  Interfaces are composable, and easy to follow, but using classes is a restriction imo (not just because we have to call `new`)
