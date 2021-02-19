@@ -20,6 +20,8 @@ return dunk(newState) - does nothing interesting
 return dunk(newState, Effects.doTheThing) - paramterless Effect
 return dunk(newState, Effects.reorderTopic(action.payload.topicId, action.payload.to)); - effect created with parameters
 
+## How effects are run with the redux store
+This is 
 
 - Effects are always scheduled after the reducer has finished.
 - Effects run async (end of current event-loop tick)
@@ -43,8 +45,8 @@ Here is how you can create Loop in 10 lines with Dunk:
 ```
 function LoopCmd(
     promise: (...params: Params) => Promise<ReturnType>,
-    successAction: ActionCreator,
-    failedAction: ActionCreator,
+    successActionCreator: ActionCreator,
+    failedActionCreator: ActionCreator,
 ) {
     return EffectCreator((...params: Params) => storeApi => {
         return promise(...params)
@@ -76,5 +78,5 @@ Dunk builds on the same architecture as loop, which is the one described above.
 
 ### Cons over loop
 - Effect type doesn't tell which actions will be dispatched if any (because you write whatever you want in the effect body)
-- More freedom in effects might lead to bad code? Loop has a strict (and limited) view on effects which might or might not work out for some.
+- More freedom in effects might lead to bad code? Loop has a strict (and limited) view on effects which might or might not work out for you.
 
