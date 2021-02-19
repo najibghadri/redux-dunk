@@ -170,5 +170,5 @@ Creating an Effect with Effect(...) and EffectCreator(...) returns you an object
 There are a couple of reasons why Effect should be an interface.
 1. An effect should be a function that can be called like effect(storeapi) but it can also have properties, like the EffectApi. This is because functions are objects too in JS, and we should take advantage of this.
 2. Effects should be kept lightweight.
-3. It's better for the user, better DX. The user should be able to dunk an effect function so long the shape is an Effect without the need to wrap it in a `new` something. This leads to readable code.
+3. It's better for the user, better DX. The user should be able to dunk an effect function so long the shape is an Effect without the need call the Effect(...) function (that would return an instance of a class.
 4. In my opinion using interfaces is better for Dev Experience, because  Interfaces are composable, and easy to follow, but using classes is a restriction imo (not just because we have to call `new`)
