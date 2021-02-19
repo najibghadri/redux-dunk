@@ -86,11 +86,13 @@ note
 You use can use Effect(...) to create your effect if it has no parameters, and EffectCreator if there are parameters. 
 To avoid confusion when working in team it may be better to enforce using EffectCreator only, however accidental calls are not possible since
 
-When you use these you get the following Monadic api with Effects
+When you create effects with these two helpers you get Effects with Monadic EffectApi  
 **Effect Api**
 - then
+- fmap
 - catch
 - fold
+- sleep
 
 **Effect composers:**
 Each of these return an Effect so you can compose them.
