@@ -81,7 +81,7 @@ Effect composers, creation helpers. All of these return an Effect so you can com
 
 ## Todos
  - Effect testers
- - More effect helpers (`Cancelable`, `TakeOne`, `LoopCommand`, `Retry`, `Poll`, `Race`)
+ - More effect helpers (`Chain`, `Cancelable`, `TakeOne`, `LoopCommand`, `Retry`, `Poll`, `Race`)
 
 ## Comparison with redux-loop ➿
 
