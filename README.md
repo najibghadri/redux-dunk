@@ -104,7 +104,7 @@ Each of these return an Effect so you can compose them.
 
 ## Todos
  - Effect testers
- - More effect helpers (`Chain`, `Cancelable`, `TakeOne`, `LoopCommand`, `Retry`, `Poll`, `Race`)
+ - More effect helpers (`Chain`, `Cancelable`, `TakeOne`, `Retry`, `Poll`, `Race`)
  - Dot notation support: `TestEffects.testEff1.delay(100).then(TestEffects.testEff2).then(TestEffects.testEff3).catch(eff4)`
 
 
