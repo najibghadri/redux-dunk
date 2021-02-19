@@ -7,14 +7,18 @@
 
 Shape of an Effect:
 
-` async({ dispatch, getState }) => any`
+```typescript 
+async({ dispatch, getState }) => any
+```
 
 Shape of an EffectCreator:
 
-`(...extraParams) => async ({ dispatch, getState }) => any`
+```typescript 
+(...extraParams) => async ({ dispatch, getState }) => any
+```
 
 Example effects (from Zoom App codebase): 
-```
+```typescript
 const setUpZoomSdk = Effect( async ({ dispatch }) => {
     const configResponse = await zoomSdk.config({});
     dispatch(actions.setRunningContext(configResponse.runningContext));
@@ -31,7 +35,7 @@ const setUpPusher = EffectCreator((userId: UserId) => async ({ dispatch }) => {
 ```
 
 Usage examples in a reducer:
-```
+```typescript
 return dunk(newState) - does nothing interesting
 return dunk(newState, Effects.doTheThing) - paramterless Effect
 return dunk(newState, Effects.reorderTopic(topicId, targetIdx)); - effect created with parameters
@@ -82,7 +86,7 @@ note
 Every dunk is a loop but not every loop is a dunk:
 
 Shape of a Loop Cmd:
-```
+```typescript 
   Cmd.run(apiFetch, {
      successActionCreator: resolveActionCreator,
      failActionCreator: rejectActionCreator,
@@ -91,7 +95,7 @@ Shape of a Loop Cmd:
 ```
 Here is how you can recreate the loop Cmd in 10 lines with Dunk:
 
-```
+```typescript 
   function LoopCmd(
       promise: (...params: Params) => Promise<ReturnType>,
       successActionCreator: ActionCreator,
