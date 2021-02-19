@@ -82,6 +82,8 @@ Effect composers, creation helpers. All of these return an Effect so you can com
 ## Todos
  - Effect testers
  - More effect helpers (`Chain`, `Cancelable`, `TakeOne`, `LoopCommand`, `Retry`, `Poll`, `Race`)
+ - Dot notation support: `TestEffects.testEff1.delay(100).then(TestEffects.testEff2).then(TestEffects.testEff3).catch(eff4)`
+
 
 ## Comparison with redux-loop ➿
 
