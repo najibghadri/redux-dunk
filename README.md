@@ -34,21 +34,25 @@ const setUpPusher = EffectCreator((userId: UserId) => async ({ dispatch }) => {
 });
 ```
 
-Usage examples in a reducer:
+Usage examples in a reducer (from ZoomApp codebase):
 ```typescript
 return dunk(newState) - does nothing interesting
 return dunk(newState, Effects.doTheThing) - paramterless Effect
 return dunk(newState, Effects.reorderTopic(topicId, targetIdx)); - effect created with parameters
 
- const effects = [
-     Sequence(
-       TestEffects.testEff1, 
-       Delay(100, TestEffects.testEff2), 
-       TestEffects.testEff3
-      ),
-     Delay(50, TestEffects.testParallel),
- ];
- return dunk(state, ...effects);  - compose effects to describe your flow in a testable way
+    case actions.startSetup.actionType: {
+        const { token, userId } = action.payload;
+
+        const effects = [
+            Sequence(
+                Effects.setUpZoomSdk, 
+                Effects.authenticate(token), 
+                Effects.setOrGetUserInfo(userId)
+            ),
+            Effects.setUpKeyboardListeners,
+        ];
+        return dunk(state, ...effects);
+    };  - compose effects to describe your flow in a testable way
 ````
 ## How effects are run with the redux store?
 
