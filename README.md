@@ -101,7 +101,7 @@ The high level concepts of loop apply to dunk: https://redux-loop.js.org/
 - Redux store can be used the same way
 
 ### Pros over loop 🏀 
- - Effects are composable, it's a monad basically
+ - Effects are composable (but it's not a monad YET)
  - Effect api to your needs: any extra params and `getState`, `dispatch`
  - You are free in your effects, no babysitting success/fail action restrictions, dispatch as many actions as you want
  - Understandable effects: explicit dispatch calls, no mind wrapped args and implicit calls of dispatch
