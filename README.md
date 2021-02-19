@@ -40,19 +40,20 @@ return dunk(newState) - does nothing interesting
 return dunk(newState, Effects.doTheThing) - paramterless Effect
 return dunk(newState, Effects.reorderTopic(topicId, targetIdx)); - effect created with parameters
 
-    case actions.startSetup.actionType: {
-        const { token, userId } = action.payload;
+case actions.startSetup.actionType: {
+    const { token, userId } = action.payload;
 
-        const effects = [
-            Sequence(
-                Effects.setUpZoomSdk, 
-                Effects.authenticate(token), 
-                Effects.setOrGetUserInfo(userId)
-            ),
-            Effects.setUpKeyboardListeners,
-        ];
-        return dunk(state, ...effects);
-    };  - compose effects to describe your flow in a testable way
+    const effects = [
+        Sequence(
+            Effects.setUpZoomSdk, 
+            Effects.authenticate(token), 
+            Effects.setOrGetUserInfo(userId)
+        ),
+        Effects.setUpKeyboardListeners,
+    ];
+    return dunk(state, ...effects);
+}; 
+ - compose effects to describe your flow in a testable way
 ````
 With dunk you can express business logic 
 by composing small effects together. 
@@ -84,9 +85,9 @@ note
 - Effect(effect) - let's you easily create an effect, shape: ` async ({ dispatch, getState }) => any`
 
 You use can use Effect(...) to create your effect if it has no parameters, and EffectCreator if there are parameters. 
-To avoid confusion when working in team it may be better to enforce using EffectCreator only, however accidental calls are not possible since
+You may enforce using EffectCreator only in your team, however there is no risk in using both.
 
-When you create effects with these two helpers you get Effects with Monadic EffectApi  
+When you create effects with these two helpers you get Effects with Monadic EffectApi:
 #### Effect Api
 - then
 - fmap
