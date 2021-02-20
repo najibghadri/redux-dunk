@@ -5,10 +5,10 @@
 
 🏀 Effect management in redux, inspired by loop ➿ 
 
-[API](#API)  
-[Examples](#Examples)  
-[How it works](#How effects are run with the redux store)  
-[ Comparison with redux-loop](# Comparison with redux-loop ➿)  
+- [API](#api)  
+- [Examples](#examples)  
+- [How it works](#how-effects-are-run-with-the-redux-store)  
+- [Comparison with redux-loop](#comparison-with-redux-loop-)  
 
 Shape of an Effect:
 
