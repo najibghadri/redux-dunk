@@ -177,6 +177,7 @@ Here is how you can recreate the loop Cmd in 10 lines with Dunk:
   
   LoopCmd(apiFetch, successActionCreator, failActionCreator)
 ```
+This is proof that you can use dunk instead of loop the same way (if you really want to...)
 
 Dunk builds on the same architecture as loop, which is the one described above.
 The high level concepts of loop apply to dunk: https://redux-loop.js.org/
