@@ -65,7 +65,8 @@ To use the Effect creator/composer functions you need to import the `EffectCreat
 ```const { Effect, EffectCreator } = EffectCreators<State>();```
 
 #### 3. Use you effects in your reducers
-You can import composers in your reducer
+Import your effects, and dunk them. You can import composers in your reducer if you need to:
+
 ```const { Sequence, Delay, Catch } = EffectCreators<State>();```
 
 ## Examples
