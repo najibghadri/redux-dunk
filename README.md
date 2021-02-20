@@ -34,7 +34,7 @@ Shape of an EffectCreator:
 
 Use `Effect` to create your effect without extra parameters, use `EffectCreator` when the effect needs extra parameters. 
 
-When you create effects with these two helpers you get Effects with Monadic EffectApi:
+When you create effects with these two helpers you get Effects with (monadic) EffectApi:
 #### Effect Api
 - then
 - fmap
@@ -126,7 +126,7 @@ case actions.startSetup.actionType: {
         Effects.setUpKeyboardListeners,
     ];
 ````
-With dunk you can express business logic by composing effects together. You don't have to bloat your code with unnecessary effect -> action -> reducer -> effect loops, since you can directly chain or sequence effects using composer or effect API (see below).
+With dunk you can express business logic by composing effects together. You don't have to bloat your code with unnecessary effect -> action -> reducer -> effect loops, since you can directly chain or sequence effects using composer or effect API.
 
 ## How effects are run with the redux store?
 
