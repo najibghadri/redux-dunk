@@ -126,7 +126,7 @@ case actions.startSetup.actionType: {
         Effects.setUpKeyboardListeners,
     ];
 ````
-With dunk you can express business logic by composing effects together. You don't have to bloat your code with unnecessary effect -> action -> reducer -> effect loops, since you can directly chain or sequence effects using composer or effect API.
+With dunk you can express business logic by composing effects together.
 
 ## How effects are run with the redux store?
 
@@ -184,14 +184,16 @@ The high level concepts of loop apply to dunk: https://redux-loop.js.org/
 ### Commonalities 🤝 
 
 - Same architecture **action -> reducer -> effect** separation (effect = command in loop)
+- Helps you create small, atomic testable effects
 - Same flow: reducer changes state first, *then* dunked Effect start running (however an Effect can be composed from Effects)
 - Typed Effects/Commands
 - Redux store can be used the same way
 
 ### Pros over loop 🏀 
- - Effects are composable and chainable (Monadic too ✊)
- - Effect api to your needs: any extra params and `getState`, `dispatch`
- - You are free in your effects, no babysitting success/fail action restrictions, dispatch as many actions as you want
+ - Powerful Effect api to your needs: any extra params plus each effets gets the `getState`, `dispatch` store api functions.
+ - Effects are composable and chainable (Monadic too ✊). 
+ - You don't have to bloat your code with unnecessary effect -> action -> reducer -> effect loops. You can describe your complex effect logic in your reducers, by composing or chaining them using composers and the EffectApi dot notation functions.
+ - You are free in your effects, no success/fail action restrictions, dispatch as many actions as you want
  - Understandable effects: explicit dispatch calls, no mind wrapped args and implicit calls of dispatch
  - Composable effect creator helpers out of the box: `Delay`, `Sequence`, `Par`, `Catch` and more coming, all of these return an Effect.
  - Dunk is written in Typescript, dunk is easier to maintain and reason about
