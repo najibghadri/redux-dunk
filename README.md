@@ -49,8 +49,14 @@ Each of these return an Effect so you can compose them.
 - Catch(effect, failEffect) try to run effect if it fails run the failEffect
 - Do() - i.e No Op, effect that does nothing, you can start a chain description with this, use it wherever
 
+## Usage
+
+#### 1.Install the dunk middleware
+
+
+
 ## Examples
-Example effects (from Zoom App codebase): 
+Example effects (some from Zoom App codebase): 
 ```typescript
 const setUpZoomSdk = Effect( async ({ dispatch }) => {
     const configResponse = await zoomSdk.config({});
@@ -65,9 +71,15 @@ const setUpPusher = EffectCreator((userId: UserId) => async ({ dispatch }) => {
     };
     connectPusherPvController(userId, pvHandler);
 });
+
+const fetchUser = Effect( async ({ dispatch }) => {
+    fetch('/user')
+        .then(res => dispatch(actions.fetchUserSuccess(res))
+        .catch(err => dispatch(actions.fetchUserFail(err))
+});
 ```
 
-Now dunk effects. Usage examples in a reducer (from ZoomApp codebase):
+Now dunk effects. Usage examples in a reducer (some from ZoomApp codebase):
 ```typescript
 return dunk(newState) - does nothing interesting
 return dunk(newState, Effects.doTheThing) - paramterless Effect
@@ -87,6 +99,14 @@ case actions.startSetup.actionType: {
     return dunk(state, ...effects);
 }; 
  - compose effects to describe your flow in a testable way
+
+you can also chain effects with dot notation api:
+    const effects = [
+        Effects.setUpZoomSdk
+            .then(Effects.authenticate(token))
+            .then(Effects.setOrGetUserInfo(userId)),
+        Effects.setUpKeyboardListeners,
+    ];
 ````
 With dunk you can express business logic by composing effects together. You don't have to bloat your code with unnecessary effect -> action -> reducer -> effect loops, since you can directly chain or sequence effects using composer or effect API (see below).
 
@@ -158,7 +178,8 @@ The high level concepts of loop apply to dunk: https://redux-loop.js.org/
  - Composable effect creator helpers out of the box: `Delay`, `Sequence`, `Par`, `Catch` and more coming, all of these return an Effect.
  - It's just a middleware. While loop installs as an enhancer, we found there is no need for that. 
  - Calling `loop` returns a modified object that contains the effects, but we found there is no need for that. `dunk` simply returns the state object it got, and queues the effects in the internal queue.
- - Written in Typescript, smaller codebase
+ - Dunk is written in Typescript, it's easier to maintain and reason about
+ - Small, minimalistic codebase
 
 ### Cons compared to loop ➿
 - Battle-tested library
@@ -167,12 +188,9 @@ The high level concepts of loop apply to dunk: https://redux-loop.js.org/
 
 
 ## Todos
- - Effect testers
+ - Effect test helpers
  - More effect helpers (`Chain`, `Retry`, `Poll`, `Race`)
  - `Cancelable`, `TakeOne` and other action trigger based complex Effects. (like saga)
- - Implement Effect Api: `TestEffects.testEff1.sleep(100).then(TestEffects.testEff2).then(TestEffects.testEff3).catch(eff4)`
- - Use Effect interface type in all exported functions except Effect and EffectCreator.
-
 
 ## Questions
 #### Why Effect is an interface not a class?
