@@ -62,12 +62,16 @@ Each of these return an Effect so you can compose them.
 ```
 #### 2. Create you effects in your effects file
 To use the Effect creator/composer functions you need to import the `EffectCreators` function, then call it with your State type to get typed helpers.
-```const { Effect, EffectCreator } = EffectCreators<State>();```
+```typescript
+const { Effect, EffectCreator } = EffectCreators<State>();
+```
 
 #### 3. Use you effects in your reducers
 Import your effects, and dunk them. You can import composers in your reducer if you need to:
 
-```const { Sequence, Delay, Catch } = EffectCreators<State>();```
+```typescript
+const { Sequence, Delay, Catch } = EffectCreators<State>();
+```
 
 ## Examples
 Example effects (some from Zoom App codebase): 
