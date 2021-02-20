@@ -17,13 +17,42 @@ Shape of an EffectCreator:
 (...extraParams) => async ({ dispatch, getState }) => any
 ```
 
-Main APIs:
+## API
+
+#### dunk
+- `dunk(nextState, ...effects)` - schedules given effects to run parallelly after reducer has finished, and returns the given state as it is.
+
+#### Effect creators
 - `Effect(effect)` - let's you easily create an effect, input shape: ` async ({ dispatch, getState }) => any`
 - ` EffectCreator(effectCreator)` - easily create an effect creator, input shape: `(...extraParams) => async ({ dispatch, getState }) => any`
-- `dunk(nextState, ...effects)` - schedules given effects to run parallelly after reducer has finished, and returns the given state as it is.
 
 Use `Effect` to create your effect without extra parameters, use `EffectCreator` when the effect needs extra parameters. 
 
+When you create effects with these two helpers you get Effects with Monadic EffectApi:
+#### Effect Api
+- then
+- fmap
+- catch
+- fold
+- sleep
+
+#### Effect composers
+Each of these return an Effect so you can compose them.
+- Delay(ms, effect) - run effect after ms delay
+- Sequence(…effects) - run effects in order waiting for promise to resolve. if one fails the effect fails
+- Par(…effects) - same as dunk(state, …effects), starts running effects parallelly
+- Catch(effect, failEffect) try to run effect if it fails run the failEffect
+- Do() - i.e No Op, effect that does nothing, you can start a chain description with this, use it wherever
+
+## Todos
+ - Effect testers
+ - More effect helpers (`Chain`, `Retry`, `Poll`, `Race`)
+ - `Cancelable`, `TakeOne` and other action trigger based complex Effects. (like saga)
+ - Implement Effect Api: `TestEffects.testEff1.sleep(100).then(TestEffects.testEff2).then(TestEffects.testEff3).catch(eff4)`
+ - Use Effect interface type in all exported functions except Effect and EffectCreator.
+
+
+## Examples
 Example effects (from Zoom App codebase): 
 ```typescript
 const setUpZoomSdk = Effect( async ({ dispatch }) => {
@@ -83,39 +112,6 @@ note
 - getState always returns the latest state in the store, not the one it was when the effect was scheduled (this is 👍 )
 - So far we haven't found a valid use case for using getState in an effect. If the effect needs parameters they should be provided with the effect creator as extra params. It might be useful to getState when you have a long-running effect that needs to check the state at later times.
 - avoid never-ending loops (action->reducer->effect->action->..) ⚠️ (same in loop)
-
-## Api Reference
-
-#### dunk
-- `dunk(nextState, ...effects)` - schedules given effects to run parallelly after reducer has finished, and returns the given state as it is.
-
-#### Effect creators
-- `Effect(effect)` - let's you easily create an effect, input shape: ` async ({ dispatch, getState }) => any`
-- ` EffectCreator(effectCreator)` - easily create an effect creator, input shape: `(...extraParams) => async ({ dispatch, getState }) => any`
-
-When you create effects with these two helpers you get Effects with Monadic EffectApi:
-#### Effect Api
-- then
-- fmap
-- catch
-- fold
-- sleep
-
-#### Effect composers
-Each of these return an Effect so you can compose them.
-- Delay(ms, effect) - run effect after ms delay
-- Sequence(…effects) - run effects in order waiting for promise to resolve. if one fails the effect fails
-- Par(…effects) - same as dunk(state, …effects), starts running effects parallelly
-- Catch(effect, failEffect) try to run effect if it fails run the failEffect
-- Do() - i.e No Op, effect that does nothing, you can start a chain description with this, use it wherever
-
-## Todos
- - Effect testers
- - More effect helpers (`Chain`, `Retry`, `Poll`, `Race`)
- - `Cancelable`, `TakeOne` and other action trigger based complex Effects. (like saga)
- - Implement Effect Api: `TestEffects.testEff1.sleep(100).then(TestEffects.testEff2).then(TestEffects.testEff3).catch(eff4)`
- - Use Effect interface type in all exported functions except Effect and EffectCreator.
-
 
 ## Comparison with redux-loop ➿
 
