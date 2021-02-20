@@ -16,6 +16,12 @@ Shape of an EffectCreator:
 ```typescript 
 (...extraParams) => async ({ dispatch, getState }) => any
 ```
+Two main APIs:
+- ` EffectCreator(effectCreator)` - easily create an effect creator, effectCreator shape: `(...extraParams) => async ({ dispatch, getState }) => any`
+- `Effect(effect)` - let's you easily create an effect, effectshape: ` async ({ dispatch, getState }) => any`
+
+You use can use Effect(...) to create your effect if it has no parameters, and EffectCreator if there are parameters. 
+You may enforce using EffectCreator only in your team, however there is no risk in using both.
 
 Example effects (from Zoom App codebase): 
 ```typescript
