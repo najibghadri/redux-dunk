@@ -30,7 +30,7 @@ Shape of an EffectCreator:
 
 #### Effect creators
 - `Effect(effect)` - let's you easily create an effect, input shape: ` async ({ dispatch, getState }) => any`
-- ` EffectCreator(effectCreator)` - easily create an effect creator, input shape: <nobr>`(...extraParams) => async ({ dispatch, getState }) => any`<nobr/>
+- ` EffectCreator(effectCreator)` - easily create an effect creator, input shape: <nobr>`(...extraParams) => async ({ dispatch, getState }) => any`</nobr>
 
 Use `Effect` to create your effect without extra parameters, use `EffectCreator` when the effect needs extra parameters. 
 
