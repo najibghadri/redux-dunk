@@ -192,7 +192,7 @@ The high level concepts of loop apply to dunk: https://redux-loop.js.org/
  - Composable effect creator helpers out of the box: `Delay`, `Sequence`, `Par`, `Catch` and more coming, all of these return an Effect.
  - It's just a middleware. While loop installs as an enhancer, we found there is no need for that. 
  - Calling `loop` returns a modified object that contains the effects, but we found there is no need for that. `dunk` simply returns the state object it got, and queues the effects in the internal queue.
- - Dunk is written in Typescript, it's easier to maintain and reason about
+ - Dunk is written in Typescript, dunk is easier to maintain and reason about
  - Small, minimalistic codebase
 
 ### Cons compared to loop ➿
