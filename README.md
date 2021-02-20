@@ -76,6 +76,7 @@ note
 - Effects are async functions
 - Effects run deferred async (end of current event-loop tick)
 - getState always returns the latest state in the store, not the one it was when the effect was scheduled (this is 👍 )
+- So far we haven't found a valid use case for using getState in an effect. If the effect needs parameters they should be provided with the effect creator as extra params. It might be useful to getState when you have a long-running effect that needs to check the state at later times.
 - avoid never-ending loops (action->reducer->effect->action->..) ⚠️ 
 
 ## Api Reference
