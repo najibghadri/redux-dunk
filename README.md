@@ -44,14 +44,6 @@ Each of these return an Effect so you can compose them.
 - Catch(effect, failEffect) try to run effect if it fails run the failEffect
 - Do() - i.e No Op, effect that does nothing, you can start a chain description with this, use it wherever
 
-## Todos
- - Effect testers
- - More effect helpers (`Chain`, `Retry`, `Poll`, `Race`)
- - `Cancelable`, `TakeOne` and other action trigger based complex Effects. (like saga)
- - Implement Effect Api: `TestEffects.testEff1.sleep(100).then(TestEffects.testEff2).then(TestEffects.testEff3).catch(eff4)`
- - Use Effect interface type in all exported functions except Effect and EffectCreator.
-
-
 ## Examples
 Example effects (from Zoom App codebase): 
 ```typescript
@@ -167,6 +159,15 @@ The high level concepts of loop apply to dunk: https://redux-loop.js.org/
 - Battle-tested library
 - A Dunk Effect's type doesn't tell which actions will be dispatched if any (because you write whatever you want in the effect body), however a loop command tells you about the next actions in it's type.
 - More freedom in effects might lead to bad code? Loop has a strict view on effects which might work for you and might keep your codebase better structured if there are many developers working on it.
+
+
+## Todos
+ - Effect testers
+ - More effect helpers (`Chain`, `Retry`, `Poll`, `Race`)
+ - `Cancelable`, `TakeOne` and other action trigger based complex Effects. (like saga)
+ - Implement Effect Api: `TestEffects.testEff1.sleep(100).then(TestEffects.testEff2).then(TestEffects.testEff3).catch(eff4)`
+ - Use Effect interface type in all exported functions except Effect and EffectCreator.
+
 
 ## Questions
 #### Why Effect is an interface not a class?
