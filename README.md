@@ -16,12 +16,13 @@ Shape of an EffectCreator:
 ```typescript 
 (...extraParams) => async ({ dispatch, getState }) => any
 ```
-Two main APIs:
-- ` EffectCreator(effectCreator)` - easily create an effect creator, effectCreator shape: `(...extraParams) => async ({ dispatch, getState }) => any`
-- `Effect(effect)` - let's you easily create an effect, effectshape: ` async ({ dispatch, getState }) => any`
 
-You use can use Effect(...) to create your effect if it has no parameters, and EffectCreator if there are parameters. 
-You may enforce using EffectCreator only in your team, however there is no risk in using both.
+Main APIs:
+- `Effect(effect)` - let's you easily create an effect, input shape: ` async ({ dispatch, getState }) => any`
+- ` EffectCreator(effectCreator)` - easily create an effect creator, input shape: `(...extraParams) => async ({ dispatch, getState }) => any`
+- `dunk(nextState, ...effects)` - schedules given effects to run parallelly after reducer has finished, and returns the given state as it is.
+
+Use `Effect` to create your effect without extra parameters, use `EffectCreator` when the effect needs extra parameters. 
 
 Example effects (from Zoom App codebase): 
 ```typescript
@@ -61,9 +62,7 @@ case actions.startSetup.actionType: {
 }; 
  - compose effects to describe your flow in a testable way
 ````
-With dunk you can express business logic 
-by composing small effects together. 
-This way you don't have to bloat your code with unnecessary effect -> action -> reducer -> effect loops, but you can directly chain or sequence effects. 
+With dunk you can express business logic by composing effects together. You don't have to bloat your code with unnecessary effect -> action -> reducer -> effect loops, since you can directly chain or sequence effects using composer or effect API (see below).
 
 ## How effects are run with the redux store?
 
@@ -87,12 +86,12 @@ note
 
 ## Api Reference
 
-#### Effect creators
-- EffectCreator(effectCreator) - easily create an effect creator, shape: `(...extraParams) => async ({ dispatch, getState }) => any`
-- Effect(effect) - let's you easily create an effect, shape: ` async ({ dispatch, getState }) => any`
+#### dunk
+- `dunk(nextState, ...effects)` - schedules given effects to run parallelly after reducer has finished, and returns the given state as it is.
 
-You use can use Effect(...) to create your effect if it has no parameters, and EffectCreator if there are parameters. 
-You may enforce using EffectCreator only in your team, however there is no risk in using both.
+#### Effect creators
+- `Effect(effect)` - let's you easily create an effect, input shape: ` async ({ dispatch, getState }) => any`
+- ` EffectCreator(effectCreator)` - easily create an effect creator, input shape: `(...extraParams) => async ({ dispatch, getState }) => any`
 
 When you create effects with these two helpers you get Effects with Monadic EffectApi:
 #### Effect Api
@@ -159,7 +158,7 @@ The high level concepts of loop apply to dunk: https://redux-loop.js.org/
 - Redux store can be used the same way
 
 ### Pros over loop 🏀 
- - Effects are composable and Monadic ✊
+ - Effects are composable and chainable (Monadic too ✊)
  - Effect api to your needs: any extra params and `getState`, `dispatch`
  - You are free in your effects, no babysitting success/fail action restrictions, dispatch as many actions as you want
  - Understandable effects: explicit dispatch calls, no mind wrapped args and implicit calls of dispatch
