@@ -5,6 +5,10 @@
 
 🏀 Effect management in redux, inspired by loop ➿ 
 
+[API](#API)  
+[Examples](#Examples)  
+    
+
 Shape of an Effect:
 
 ```typescript 
