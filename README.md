@@ -7,7 +7,8 @@
 
 [API](#API)  
 [Examples](#Examples)  
-    
+[How it works](#How effects are run with the redux store)  
+[ Comparison with redux-loop](# Comparison with redux-loop ➿)  
 
 Shape of an Effect:
 
