@@ -95,13 +95,14 @@ const fetchUser = Effect( async ({ dispatch }) => {
 
 Now dunk effects. Usage examples in a reducer (some from ZoomApp codebase):
 ```typescript
-return dunk(newState) - does nothing interesting
-return dunk(newState, Effects.doTheThing) - paramterless Effect
-return dunk(newState, Effects.reorderTopic(topicId, targetIdx)); - effect created with parameters
+return dunk(newState) // does nothing interesting
+return dunk(newState, Effects.doTheThing) // paramterless Effect
+return dunk(newState, Effects.reorderTopic(topicId, targetIdx)); // effect created with parameters
 
 case actions.startSetup.actionType: {
     const { token, userId } = action.payload;
 
+     // compose effects to describe your flow in a testable way
     const effects = [
         Sequence(
             Effects.setUpZoomSdk, 
@@ -112,9 +113,8 @@ case actions.startSetup.actionType: {
     ];
     return dunk(state, ...effects);
 }; 
- - compose effects to describe your flow in a testable way
 
-you can also chain effects with dot notation api:
+    // you can also chain effects with dot notation api:
     const effects = [
         Effects.setUpZoomSdk
             .then(Effects.authenticate(token))
