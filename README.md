@@ -3,9 +3,8 @@
 <img width="350" src="https://user-images.githubusercontent.com/11639734/108255304-61ff8e00-715c-11eb-8dca-30544a097424.png">
 
 
-🏀 Effect management in redux, inspired by loop ➿ 
-
-Schedule async functions in reducers to run after reducers with dispatch-getstate api provided.
+🏀 Effect management in redux, inspired by loop ➿ \
+*Schedule async functions in reducers to run after reducers with dispatch-getstate api provided.*
 
 - [API](#api)  
 - [Usage](#usage)
@@ -212,8 +211,21 @@ The high level concepts of loop apply to dunk: https://redux-loop.js.org/
  - Effect test helpers
  - More effect helpers (`Chain`, `Retry`, `Poll`, `Race`)
  - `Cancelable`, `TakeOne` and other action trigger based complex Effects. (like saga)
+ - Dependency management for pure effects
 
 ## Questions/Discussions
+
+#### Are effects impure - dependency injection
+
+This is a questions of your architecture. If effects use global dependencies then they are. This is an issue to be take care of in loop as well. Using a global HTTP API module or storage module or anything from global scope make your tests difficult to test. Since effects can be considered as the impure part of an architecture, this might not be an issue for some, and could be circumvented by taking care of global dependencies. 
+
+However we realize this might not be preferred for some and an idea to solve this is depndency injection. When setting up dunk you could add dependency objects which will be passed besides the store api object. That make an effect's shape: `async({ dispatch, getState }, {...dependencies}) => any`. If there is a need we can implement this for sure 😉. (There is also a way to dynamically update dependencies if there is a need 🤑)
+
+#### About dunk as middleware
+While loop installs as an enhancer, dunk is only a middleware yet. If you have multiple stores in your app this could be a problem, however that is not recommended anyways. If there is a valid case we can make it an enhancer.
+
+Calling `loop` returns a modified object that contains the effects, however `dunk` simply returns the state object it got, and queues the effects in the internal queue. This is partly because dunk is a middleware, not an enhancer, which simplifies the architecture of the library.
+
 #### Why Effect is an interface not a class?
 
 Creating an Effect with Effect(...) and EffectCreator(...) returns you an object with two interfaces implemented: Effect and EffectApi. 
@@ -223,9 +235,4 @@ There are a couple of reasons why Effect should be an interface.
 3. It's better for the user, better DX. The user should be able to dunk an effect function so long the shape is an Effect without the need call the Effect(...) function (that would return an instance of a class).
 4. In my opinion using interfaces is better developing the library too. Interfaces are composable, and easy to follow, but using classes is a restriction imo (not just because we have to call `new`)
 
-#### Are effects impure
 
-#### About dunk as middleware
-While loop installs as an enhancer, dunk is only a middleware yet. If you have multiple stores in your app this could be a problem, however that is not recommended anyways. If there is a valid case we can make it an enhancer.
-
-Calling `loop` returns a modified object that contains the effects, but we found there is no need for that. `dunk` simply returns the state object it got, and queues the effects in the internal queue. This is partly because dunk is a middleware, not an enhancer, which simplifies the architecture of the library.
