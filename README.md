@@ -4,7 +4,7 @@
 
 
 🏀 Effect management in redux, inspired by loop ➿ \
-*Schedule async functions in reducers to run after reducers with dispatch-getstate api provided.*
+*Schedule async functions from reducers to run after reducers with dispatch-getstate api provided.*
 
 - [API](#api)  
 - [Usage](#usage)
