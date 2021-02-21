@@ -198,8 +198,8 @@ The high level concepts of loop apply to dunk: https://redux-loop.js.org/
  - You are free in your effects, no success/fail action restrictions, dispatch as many actions as you want
  - Understandable effects: explicit dispatch calls, no mind wrapped args and implicit calls of dispatch
  - Composable effect creator helpers out of the box: `Delay`, `Sequence`, `Par`, `Catch` and more coming, all of these return an Effect.
- - Dunk is written in Typescript, dunk is easier to maintain and reason about
- - Small, simplistic library
+ - Dunk is written in Typescript
+ - Small, simplistic library (so far)
 
 ### Cons compared to loop ➿
 - Battle-tested library
