@@ -4,6 +4,7 @@
 
 
 🏀 Effect management in redux, inspired by loop ➿ 
+Schedule async functions in reducers to run after reducers with dispatch-getstate api provided.
 
 - [API](#api)  
 - [Usage](#usage)
@@ -212,7 +213,7 @@ The high level concepts of loop apply to dunk: https://redux-loop.js.org/
  - `Cancelable`, `TakeOne` and other action trigger based complex Effects. (like saga)
 
 ## Questions/Discussions
-Why Effect is an interface not a class?
+#### Why Effect is an interface not a class?
 
 Creating an Effect with Effect(...) and EffectCreator(...) returns you an object with two interfaces implemented: Effect and EffectApi. 
 There are a couple of reasons why Effect should be an interface.
@@ -221,6 +222,9 @@ There are a couple of reasons why Effect should be an interface.
 3. It's better for the user, better DX. The user should be able to dunk an effect function so long the shape is an Effect without the need call the Effect(...) function (that would return an instance of a class).
 4. In my opinion using interfaces is better developing the library too. Interfaces are composable, and easy to follow, but using classes is a restriction imo (not just because we have to call `new`)
 
+#### Are effects impure
+
+#### About dunk as middleware
 While loop installs as an enhancer, dunk is only a middleware yet. If you have multiple stores in your app this could be a problem, however that is not recommended anyways. If there is a valid case we can make it an enhancer.
 
 Calling `loop` returns a modified object that contains the effects, but we found there is no need for that. `dunk` simply returns the state object it got, and queues the effects in the internal queue. This is partly because dunk is a middleware, not an enhancer, which simplifies the architecture of the library.
