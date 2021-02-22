@@ -4,7 +4,7 @@ export interface Effect<State = any, ActionType extends AnyAction = AnyAction, R
 }
 
 export interface EffectApi<State = any, ActionType extends AnyAction = AnyAction, ReturnType = any> {
-    then: <NextReturnType = any>(
+    andThen: <NextReturnType = any>(
         ef: Effect<State, ActionType, NextReturnType>,
     ) => Effect<State, ActionType, NextReturnType> & EffectApi<State, ActionType, NextReturnType>;
 
@@ -31,13 +31,12 @@ export const dunkMiddleware: Middleware = ({ getState, dispatch }) => next => ac
 };
 
 export function EffectCreators<State = any, ActionType extends AnyAction = AnyAction>() {
-
     function Effect<ReturnType = any>(
         effect: (storeApi: { dispatch: Dispatch<ActionType>; getState: () => State }) => Promise<ReturnType>,
     ) {
         const effApi: EffectApi<State, ActionType, ReturnType> = {
-            then: ef =>  Effect(storeApi => effect(storeApi).then(_ => ef(storeApi))),
-            fmap: f => Effect(storeApi => effect(storeApi).then(res => f(res)(storeApi)))
+            andThen: ef => Effect(storeApi => effect(storeApi).then(_ => ef(storeApi))),
+            fmap: f => Effect(storeApi => effect(storeApi).then(res => f(res)(storeApi))),
         };
         const eff = Object.assign<
             (storeApi: { dispatch: Dispatch<ActionType>; getState: () => State }) => Promise<ReturnType>,
