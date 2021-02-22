@@ -37,7 +37,7 @@ Use `Effect` to create your effect without extra parameters, use `EffectCreator`
 
 When you create effects with these two helpers you get Effects with (monadic) EffectApi:
 #### Effect Api
-- then
+- andThen
 - fmap
 - catch
 - fold
