@@ -228,7 +228,7 @@ While loop installs as an enhancer, we found there is no need for that. dunk is 
 #### Multi store setup
 
 This is not supported yet. Generally it's not recommended to have multiple stores in one bundle (app) (https://redux.js.org/faq/store-setup#can-or-should-i-create-multiple-stores-can-i-import-my-store-directly-and-use-it-in-components-myself) but we can make support for this. It would require you to set up dunk middleware, dunk function and Effect creators together, and use those instances together consistently (with all redux parts: store, reducer, actions, dispatch).
-This is necessary to separated the queue of different stores and any potential stateful Effect (such as the planned `Cancellable`.
+This is necessary to separate the state of multiple dunk middlewares: the effect queues and any potential stateful Effects (such as the planned `Cancellable`).
 
 
 #### Why Effect is an interface not a class?
