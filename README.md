@@ -200,6 +200,7 @@ The high level concepts of loop apply to dunk: https://redux-loop.js.org/
  - Composable effect creator helpers out of the box: `Delay`, `Sequence`, `Par`, `Catch` and more coming, all of these return an Effect.
  - Dunk is written in Typescript
  - Small, simplistic library (so far)
+ - While loop installs as an enhancer, we found there is no need for that. dunk is only a middleware. This simplifies the architecture of the library.
 
 ### Cons compared to loop ➿
 - Battle-tested library
@@ -222,9 +223,13 @@ This is a questions of your architecture. If effects use global dependencies the
 However this might not be preferred for some and an idea to solve this is depndency injection. When setting up dunk you could add dependency objects which will be passed next to the store api object. That makes an effect's shape: `async({ dispatch, getState }, {...dependencies}) => any`. If there is a need we can implement this. (There is also a way to dynamically update dependencies if there is a need 😉)
 
 #### About dunk as middleware
-While loop installs as an enhancer, dunk is only a middleware yet. If you have multiple stores in your app this could be a problem, however that is not recommended anyways. If there is a valid case we can make it an enhancer.
+While loop installs as an enhancer, we found there is no need for that. dunk is only a middleware. Calling `loop` returns a modified object that contains the effects, however `dunk` simply returns the state object it got, and queues the effects in the internal queue. This is partly because dunk is a middleware, not an enhancer, which simplifies the architecture of the library.
 
-Calling `loop` returns a modified object that contains the effects, however `dunk` simply returns the state object it got, and queues the effects in the internal queue. This is partly because dunk is a middleware, not an enhancer, which simplifies the architecture of the library.
+#### Multi store setup
+
+This is not supported yet. Generally it's not recommended to have multiple stores in one bundle (app) (https://redux.js.org/faq/store-setup#can-or-should-i-create-multiple-stores-can-i-import-my-store-directly-and-use-it-in-components-myself) but we can make support for this. It would require you to set up dunk middleware, dunk function and Effect creators together, and use those instances together consistently (with all redux parts: store, reducer, actions, dispatch).
+This is necessary to separated the queue of different stores and any potential stateful Effect (such as the planned `Cancellable`.
+
 
 #### Why Effect is an interface not a class?
 
