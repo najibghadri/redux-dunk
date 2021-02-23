@@ -218,9 +218,7 @@ The high level concepts of loop apply to dunk: https://redux-loop.js.org/
 
 #### Are effects impure - dependency injection
 
-This is a questions of your architecture. If effects use global dependencies then they are. This is an issue to be take care of in loop as well. Using a global HTTP API module or storage module or anything from global scope makes your tests difficult to test. This might not be an issue for some, and could be circumvented by taking care of global dependencies. 
-
-However this might not be preferred for some and an idea to solve this is depndency injection. When setting up dunk you could add dependency objects which will be passed next to the store api object. That makes an effect's shape: `async({ dispatch, getState }, {...dependencies}) => any`. If there is a need we can implement this. (There is also a way to dynamically update dependencies if there is a need 😉)
+This is a questions of your architecture. If effects use global dependencies then they are. This is an issue to be take care of in loop as well. Using a global HTTP API module or storage module or anything from global scope makes your tests difficult to test. This might not be an issue for some, and could be circumvented by taking care of global dependencies for example with a function that creates effects with dependencies. 
 
 #### About dunk as middleware
 While loop installs as an enhancer, we found there is no need for that. dunk is only a middleware. Calling `loop` returns a modified object that contains the effects, however `dunk` simply returns the state object it got, and queues the effects in the internal queue. This is partly because dunk is a middleware, not an enhancer, which simplifies the architecture of the library.
