@@ -1,30 +1,38 @@
 import { Dispatch, Middleware, AnyAction } from 'redux';
-export interface Effect<State = any, ActionType extends AnyAction = AnyAction, ReturnType = any> {
+
+export type Effect<State = any, ActionType extends AnyAction = AnyAction, ReturnType = any> = EffectFunction<
+    State,
+    ActionType,
+    ReturnType
+> &
+    EffectApi<State, ActionType, ReturnType>;
+
+export interface EffectFunction<State = any, ActionType extends AnyAction = AnyAction, ReturnType = any> {
     (storeApi: { dispatch: Dispatch<ActionType>; getState: () => State }): Promise<ReturnType>;
 }
 
 export interface EffectApi<State = any, ActionType extends AnyAction = AnyAction, ReturnType = any> {
     andThen: <NextReturnType = any>(
-        ef: Effect<State, ActionType, NextReturnType>,
-    ) => Effect<State, ActionType, NextReturnType> & EffectApi<State, ActionType, NextReturnType>;
+        ef: EffectFunction<State, ActionType, NextReturnType>,
+    ) => EffectFunction<State, ActionType, NextReturnType> & EffectApi<State, ActionType, NextReturnType>;
 
     fmap: <NextReturnType = any>(
-        f: (res: ReturnType) => Effect<State, ActionType, NextReturnType>,
-    ) => Effect<State, ActionType, NextReturnType> & EffectApi<State, ActionType, NextReturnType>;
+        f: (res: ReturnType) => EffectFunction<State, ActionType, NextReturnType>,
+    ) => EffectFunction<State, ActionType, NextReturnType> & EffectApi<State, ActionType, NextReturnType>;
     // catch:
     // fold:
     // sleep:
 }
 
-let effectQueue: Effect[] = [];
+let effectQueue: EffectFunction[] = [];
 
-export function dunk<State = any>(nextState: State, ...effects: Effect[]) {
+export function dunk<State = any>(nextState: State, ...effects: EffectFunction[]) {
     effectQueue.push(...effects);
     return nextState;
 }
 
 export const dunkMiddleware: Middleware = ({ getState, dispatch }) => next => action => {
-    next(action); // reducer (and previous middlewares) runs first
+    next(action); // reducer (and next middlewares) runs first
     effectQueue.forEach(effect => Promise.resolve().then(() => effect({ getState, dispatch })));
     effectQueue = [];
     return action;
@@ -54,13 +62,13 @@ export function EffectCreators<State = any, ActionType extends AnyAction = AnyAc
         return effCreator;
     }
 
-    function Delay<ReturnType = any>(ms: number, effect: Effect<State, ActionType, ReturnType>) {
+    function Delay<ReturnType = any>(ms: number, effect: EffectFunction<State, ActionType, ReturnType>) {
         return Effect(storeApi => {
             return new Promise(resolve => setTimeout(resolve, ms)).then(() => effect(storeApi));
         });
     }
 
-    function Sequence(...effects: Effect<State, ActionType, any>[]) {
+    function Sequence(...effects: EffectFunction<State, ActionType, any>[]) {
         return Effect(async storeApi => {
             return effects.reduce((composed, effect) => {
                 return composed.then(() => effect(storeApi));
@@ -68,24 +76,24 @@ export function EffectCreators<State = any, ActionType extends AnyAction = AnyAc
         });
     }
 
-    function Par(...effects: Effect<State, ActionType, any>[]) {
+    function Par(...effects: EffectFunction<State, ActionType, any>[]) {
         return Effect(async storeApi => {
             return effects.forEach(effect => effect(storeApi));
         });
     }
 
     function Catch<ReturnTypeSuccess = any, ReturnTypeFail = any>(
-        effect: Effect<State, ActionType, ReturnTypeSuccess>,
-        failEffect: Effect<State, ActionType, ReturnTypeFail>,
+        effect: EffectFunction<State, ActionType, ReturnTypeSuccess>,
+        failEffect: EffectFunction<State, ActionType, ReturnTypeFail>,
     ) {
         return Effect<ReturnTypeSuccess | ReturnTypeFail>(storeApi =>
             effect(storeApi).catch(() => failEffect(storeApi)),
         );
     }
 
-    function Do() {
-        return Effect(_ => Promise.resolve());
-    }
+    const Do = Effect(_ => Promise.resolve());
+
+    const NoOp = Do;
 
     // planned helpers:
     // Cancelable(cancelAction, effect): promise
@@ -105,5 +113,6 @@ export function EffectCreators<State = any, ActionType extends AnyAction = AnyAc
         Par,
         Catch,
         Do,
+        NoOp,
     };
 }
