@@ -1,0 +1,43 @@
+/* eslint-disable no-console */
+
+import { State } from './state';
+import { EffectCreators } from './middlewares/dunk';
+import actions from './actions';
+
+const { Effect, EffectCreator } = EffectCreators<State>();
+
+const testEffLog = EffectCreator((log: string) => async _ => {
+    console.log('testEff1' + log);
+});
+
+const testDispatchDunkTest2 = Effect(async storeApi => {
+    console.log('testDispatchDunkTest2');
+    storeApi.dispatch(actions.dunkTest2());
+});
+
+export default {
+    testEffLog,
+    testDispatchDunkTest2,
+};
+
+
+case actions.dunkTest1.actionType: {
+    const effects = [
+        Sequence(
+            TestEffects.testEffLog('A1'),
+            Delay(100, TestEffects.testEffLog('A2')),
+            TestEffects.testDispatchDunkTest2,
+        ),
+        Delay(50, TestEffects.testEffLog('Bparall')),
+        TestEffects.testEffLog('C1').andThen(TestEffects.testEffLog('C2')),
+    ];
+    return dunk(state, ...effects);
+}
+
+case actions.dunkTest2.actionType: {
+    return dunk(state, TestEffects.testEffLog('A3'));
+}
+
+    // Dunk test actions
+dunkTest1: createAction('dunkTest1'),
+dunkTest2: createAction('dunkTest2'),
