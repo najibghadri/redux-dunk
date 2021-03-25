@@ -46,11 +46,10 @@ export function EffectCreators<State = any, ActionType extends AnyAction = AnyAc
             andThen: ef => Effect(storeApi => effect(storeApi).then(_ => ef(storeApi))),
             fmap: f => Effect(storeApi => effect(storeApi).then(res => f(res)(storeApi))),
         };
-        const eff = Object.assign<
+        return Object.assign<
             (storeApi: { dispatch: Dispatch<ActionType>; getState: () => State }) => Promise<ReturnType>,
             EffectApi<State, ActionType, ReturnType>
         >(effect, effApi);
-        return eff;
     }
 
     function EffectCreator<Params extends Array<unknown> = [], ReturnType = any>(
@@ -58,8 +57,7 @@ export function EffectCreators<State = any, ActionType extends AnyAction = AnyAc
             ...params: Params
         ) => (storeApi: { dispatch: Dispatch<ActionType>; getState: () => State }) => Promise<ReturnType>,
     ) {
-        const effCreator = (...params: Params) => Effect(effectCreator(...params));
-        return effCreator;
+        return (...params: Params) => Effect(effectCreator(...params));
     }
 
     function Delay<ReturnType = any>(ms: number, effect: EffectFunction<State, ActionType, ReturnType>) {
