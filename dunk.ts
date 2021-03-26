@@ -19,7 +19,11 @@ export interface EffectApi<State = any, ActionType extends AnyAction = AnyAction
     fmap: <NextReturnType = any>(
         f: (res: ReturnType) => EffectFunction<State, ActionType, NextReturnType>,
     ) => EffectFunction<State, ActionType, NextReturnType> & EffectApi<State, ActionType, NextReturnType>;
-    // catch:
+
+    catch: <NextReturnType = any>(
+        f: (err: any) => EffectFunction<State, ActionType, NextReturnType>,
+    ) => EffectFunction<State, ActionType, NextReturnType | ReturnType> &
+        EffectApi<State, ActionType, NextReturnType | ReturnType>;
     // fold:
     // sleep:
 }
@@ -45,6 +49,7 @@ export function EffectCreators<State = any, ActionType extends AnyAction = AnyAc
         const effApi: EffectApi<State, ActionType, ReturnType> = {
             andThen: ef => Effect(storeApi => effect(storeApi).then(_ => ef(storeApi))),
             fmap: f => Effect(storeApi => effect(storeApi).then(res => f(res)(storeApi))),
+            catch: f => Effect(storeApi => effect(storeApi).catch(err => f(err)(storeApi))),
         };
         return Object.assign<
             (storeApi: { dispatch: Dispatch<ActionType>; getState: () => State }) => Promise<ReturnType>,
