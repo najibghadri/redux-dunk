@@ -15,7 +15,7 @@
 Shape of an Effect:
 
 ```typescript 
-async({ dispatch, getState }) => any
+async ({ dispatch, getState }) => any
 ```
 
 Shape of an EffectCreator:
