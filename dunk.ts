@@ -1,5 +1,10 @@
 import { Dispatch, Middleware, AnyAction } from 'redux';
 
+export interface StoreApi<State> {
+    getState: () => State;
+    dispatch: Dispatch<AnyAction>;
+}
+
 export type Effect<State = any, ActionType extends AnyAction = AnyAction, ReturnType = any> = EffectFunction<
     State,
     ActionType,
@@ -14,10 +19,6 @@ export interface EffectFunction<State = any, ActionType extends AnyAction = AnyA
 export interface EffectApi<State = any, ActionType extends AnyAction = AnyAction, ReturnType = any> {
     andThen: <NextReturnType = any>(
         ef: EffectFunction<State, ActionType, NextReturnType>,
-    ) => EffectFunction<State, ActionType, NextReturnType> & EffectApi<State, ActionType, NextReturnType>;
-
-    fmap: <NextReturnType = any>(
-        f: (res: ReturnType) => EffectFunction<State, ActionType, NextReturnType>,
     ) => EffectFunction<State, ActionType, NextReturnType> & EffectApi<State, ActionType, NextReturnType>;
 
     catch: <NextReturnType = any>(
@@ -48,7 +49,6 @@ export function EffectCreators<State = any, ActionType extends AnyAction = AnyAc
     ) {
         const effApi: EffectApi<State, ActionType, ReturnType> = {
             andThen: ef => Effect(storeApi => effect(storeApi).then(_ => ef(storeApi))),
-            fmap: f => Effect(storeApi => effect(storeApi).then(res => f(res)(storeApi))),
             catch: f => Effect(storeApi => effect(storeApi).catch(err => f(err)(storeApi))),
         };
         return Object.assign<
