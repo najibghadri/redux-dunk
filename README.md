@@ -86,7 +86,7 @@ const { Sequence, Delay, Catch } = EffectCreators<State>();
 Example effects: 
 ```typescript
 const setUpSomeIO = Effect( async ({ dispatch }) => {
-    const configResponse = await sdk.config({});
+    const configResponse = await io.setup({});
     dispatch(actions.setIOStatus(configResponse.status));
 });
 
