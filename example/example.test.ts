@@ -1,4 +1,4 @@
-import { EffectCreators, dunkMiddleware } from './dunk';
+import { EffectCreators, dunkMiddleware } from '../src/dunk';
 import { createAction } from 'redux-dry-ts-actions';
 import configureStore from 'redux-mock-store';
 
@@ -20,7 +20,7 @@ const { EffectCreator } = EffectCreators<State>();
 let fails = false;
 
 const testFetch = async (_: string) => {
-    return fails ? Promise.resolve({ message: 'hello' }) : Promise.reject();
+    return fails ? Promise.reject() : Promise.resolve({ message: 'hello' });
 };
 
 const fetchUser = EffectCreator((userId: number) => async ({ dispatch }) => {
@@ -31,6 +31,10 @@ const fetchUser = EffectCreator((userId: number) => async ({ dispatch }) => {
 
 const store = configureStore<State>([dunkMiddleware])(initialState);
 const mockStoreApi = { dispatch: store.dispatch, getState: store.getState };
+
+beforeEach(() => {
+    store.clearActions();
+});
 
 test('success case', () => {
     fails = false;
