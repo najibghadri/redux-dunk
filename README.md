@@ -6,6 +6,11 @@
 🏀 Effect middleware for redux, inspired by loop and thunk ➿ \
 *Schedule async functions from reducers to run after reducers using dispatch-getstate store api.*
 
+[![build status](https://img.shields.io/travis/prezi/redux-dunk/master.svg?style=flat-square)](https://travis-ci.org/prezi/redux-dunk)
+[![npm version](https://img.shields.io/npm/v/redux-dunk.svg?style=flat-square)](https://www.npmjs.com/package/redux-dunk)
+[![npm downloads](https://img.shields.io/npm/dm/redux-dunk.svg?style=flat-square)](https://www.npmjs.com/package/redux-dunk)
+
+
 - [API](#api)  
 - [Usage](#usage)
 - [Examples](#examples)  
