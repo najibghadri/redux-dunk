@@ -6,6 +6,11 @@
 🏀 Effect middleware for redux, inspired by loop and thunk ➿ \
 *Schedule async functions from reducers to run after reducers using dispatch-getstate store api.*
 
+[![build status](https://img.shields.io/travis/prezi/redux-dunk/master.svg?style=flat-square)](https://travis-ci.org/prezi/redux-dunk)
+[![npm version](https://img.shields.io/npm/v/redux-dunk.svg?style=flat-square)](https://www.npmjs.com/package/redux-dunk)
+[![npm downloads](https://img.shields.io/npm/dm/redux-dunk.svg?style=flat-square)](https://www.npmjs.com/package/redux-dunk)
+
+
 - [API](#api)  
 - [Usage](#usage)
 - [Examples](#examples)  
@@ -37,19 +42,19 @@ Use `Effect` to create your effect without extra parameters, use `EffectCreator`
 
 When you create effects with these two helpers you get Effects with (monadic) EffectApi:
 #### Effect Api
-- andThen
-- fmap
-- catch
-- fold
-- sleep
+- `.andThen(effect)` -- chain effects that run after each other if they succeed
+- `.catch(effect)` -- if the effect fails run this effect 
+- `.fmap(res => effect) or .fmap(effectCreator)` -- not implemented as we found it can lead to bad practices. Dispatch actions and dunk the next effect in those instead
+- `fold` -- not yet implemented - based on requests
+- `sleep` -- not yet implemented - based on requests
 
 #### Effect composers
 Each of these return an Effect so you can compose them.
-- Delay(ms, effect) - run effect after ms delay
-- Sequence(…effects) - run effects in order waiting for promise to resolve. if one fails the effect fails
-- Par(…effects) - same as dunk(state, …effects), starts running effects parallelly
-- Catch(effect, failEffect) try to run effect if it fails run the failEffect
-- Do() - i.e No Op, effect that does nothing, you can start a chain description with this, use it wherever
+- `Delay(ms, effect)` - run effect after ms delay
+- `Sequence(…effects)` - run effects in order waiting for promise to resolve. if one fails the effect fails
+- `Par(…effects)` - same as dunk(state, …effects), starts running effects parallelly
+- `Catch(effect, failEffect)` try to run effect if it fails run the failEffect
+- `Do()` - i.e No Op, effect that does nothing, you can start a chain description with this, use it wherever
 
 ## Usage
 
