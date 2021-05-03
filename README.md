@@ -102,7 +102,13 @@ const pollInfo = EffectCreator((userId: UserId) => async ({ dispatch }) => {
 const fetchUser = Effect( async ({ dispatch }) => {
     fetch('/user')
         .then(res => dispatch(actions.fetchUserSuccess(res))
-        .catch(err => dispatch(actions.fetchUserFail(err))
+        .catch(err => dispatch(actions.fetchUserFail(err));
+});
+
+const setUpListeners = Effect( async ({ dispatch }) => {
+    someting.addListener('some-important-event', data => {
+        dispatch(actions.importantEventUpdated(data))
+    });
 });
 ```
 
@@ -134,7 +140,7 @@ case actions.startSetup.actionType: {
             .andThen(Effects.authenticate(token))
             .andThen(Effects.fetchUser),
             .andThen(Effects.pollInfo(userId))
-        Effects.setUpKeyboardListeners,
+        Effects.setUpListeners,
     ];
 ````
 With dunk you can express business logic by composing effects together.
