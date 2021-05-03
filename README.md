@@ -44,6 +44,9 @@ When you create effects with these two helpers you get Effects with (monadic) Ef
 #### Effect Api
 - `.andThen(effect)` -- chain effects that run after each other if they succeed
 - `.catch(effect)` -- if the effect fails run this effect 
+
+
+not implemented
 - `.fmap(res => effect) or .fmap(effectCreator)` -- not implemented as we found it can lead to bad practices. Dispatch actions and dunk the next effect in those instead
 - `fold` -- not yet implemented - based on requests
 - `sleep` -- not yet implemented - based on requests
@@ -183,47 +186,38 @@ Here is how you can recreate the loop Cmd in 10 lines with Dunk:
   
   LoopCmd(apiFetch, successActionCreator, failActionCreator)
 ```
-This is proof that you can use dunk instead of loop the same way (if you really want to...)
 
-Dunk builds on the same architecture as loop, which is the one described above.
-The high level concepts of loop apply to dunk: https://redux-loop.js.org/
+Architecturally both loop and dunk are very similar. The way to think about both of them is that that you can schedule async functions that run after the reducer and can trigger new state changes with dispatch. Optionally you can get the current state in the effect, both in dunk and loop using getState.
 
 ### Commonalities 🤝 
 
-- Same architecture **action -> reducer -> effect** separation (effect = command in loop)
-- Helps you create small, atomic testable effects
-- Same flow: reducer changes state first, *then* dunked Effect start running (however an Effect can be composed from Effects)
+- Same architecture **action -> reducer -> effect** separation (effect/command)
 - Typed Effects/Commands
 - Redux store can be used the same way
 
-### Pros over loop 🏀 
+### Why dunk is better 🏀 
  - Powerful Effect api to your needs: any extra params plus each effets gets the `getState`, `dispatch` store api functions.
- - Effects are composable and chainable (Monadic too ✊). 
+ - Easy testing with Jest and redux-mock-store (see example)
+ - Effects are composable and chainable.
  - You don't have to bloat your code with unnecessary effect -> action -> reducer -> effect loops. You can describe your complex effect logic in your reducers, by composing or chaining them using composers and the EffectApi dot notation functions.
  - You are free in your effects, no success/fail action restrictions, dispatch as many actions as you want
  - Understandable effects: explicit dispatch calls, no mind wrapped args and implicit calls of dispatch
  - Composable effect creator helpers out of the box: `Delay`, `Sequence`, `Par`, `Catch` and more coming, all of these return an Effect.
  - Dunk is written in Typescript
- - Small, simplistic library (so far)
+ - Dunk is a much smaller library, helpers included
  - While loop installs as an enhancer, we found there is no need for that. dunk is only a middleware. This simplifies the architecture of the library.
 
-### Cons compared to loop ➿
-- Battle-tested library
+
+### Why loop could be better
 - A Dunk Effect's type doesn't tell which actions will be dispatched if any (because you write whatever you want in the effect body), however a loop command tells you about the next actions in it's type.
 - More freedom in effects might lead to bad code? Loop has a strict view on effects which might work for you and might keep your codebase better structured if there are many developers working on it.
 
 
 ## Todos
- - Effect test helpers
- - More effect helpers (`Chain`, `Retry`, `Poll`, `Race`)
- - `Cancelable`, `TakeOne` and other action trigger based complex Effects. (like saga)
- - Dependency management for pure effects
+ - More effect helpers (`Chain`, `Retry`, `Poll`, `Race`) - based on requests
+ - `Cancelable`, `TakeOne` and other action trigger based complex Effects. (like saga) - based on requests
 
 ## Questions/Discussions
-
-#### Are effects impure - dependency injection
-
-This is a questions of your architecture. If effects use global dependencies then they are. This is an issue to be take care of in loop as well. Using a global HTTP API module or storage module or anything from global scope makes your tests difficult to test. This might not be an issue for some, and could be circumvented by taking care of global dependencies for example with a function that creates effects with dependencies. 
 
 #### About dunk as middleware
 While loop installs as an enhancer, we found there is no need for that. dunk is only a middleware. Calling `loop` returns a modified object that contains the effects, however `dunk` simply returns the state object it got, and queues the effects in the internal queue. This is partly because dunk is a middleware, not an enhancer, which simplifies the architecture of the library.
