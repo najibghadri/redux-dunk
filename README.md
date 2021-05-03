@@ -76,11 +76,7 @@ const { Effect, EffectCreator } = EffectCreators<State>();
 ```
 
 #### 3. Use your effects in your reducers
-Import your effects, and dunk them. You can import composers in your reducer if you need to:
-
-```typescript
-const { Sequence, Delay, Catch } = EffectCreators<State>();
-```
+Import your effects, and dunk them. You can import composers in your reducer if you need to. Examples below.
 
 ## Examples
 Example effects: 
@@ -114,6 +110,9 @@ const setUpListeners = Effect( async ({ dispatch }) => {
 
 Now dunk effects. Usage examples in a reducer:
 ```typescript
+const { Sequence, Delay, Catch } = EffectCreators<State>();
+
+// in the reducer function:
 return dunk(newState) // does nothing interesting
 return dunk(newState, Effects.doTheThing) // paramterless Effect
 return dunk(newState, Effects.reorderTopic(topicId, targetIdx)); // effect created with parameters
@@ -142,6 +141,7 @@ case actions.startSetup.actionType: {
             .andThen(Effects.pollInfo(userId))
         Effects.setUpListeners,
     ];
+    return dunk(state, ...effects)
 ````
 With dunk you can express business logic by composing effects together.
 
