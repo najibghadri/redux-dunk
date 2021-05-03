@@ -85,9 +85,9 @@ const { Sequence, Delay, Catch } = EffectCreators<State>();
 ## Examples
 Example effects: 
 ```typescript
-const setUpSdk = Effect( async ({ dispatch }) => {
+const setUpSomeIO = Effect( async ({ dispatch }) => {
     const configResponse = await sdk.config({});
-    dispatch(actions.setSdkStatus(configResponse.status));
+    dispatch(actions.setIOStatus(configResponse.status));
 });
 
 const pollInfo = EffectCreator((userId: UserId) => async ({ dispatch }) => {
@@ -118,7 +118,7 @@ case actions.startSetup.actionType: {
      // compose effects to describe your flow in a testable way
     const effects = [
         Sequence(
-            Effects.setUpSdk, 
+            Effects.setUpSomeIO, 
             Effects.authenticate(token), 
             Effects.fetchUser,
             Effects.pollInfo(userId)
@@ -130,7 +130,7 @@ case actions.startSetup.actionType: {
 
     // you can also chain effects with dot notation api:
     const effects = [
-        Effects.setUpSdk
+        Effects.setUpSomeIO
             .andThen(Effects.authenticate(token))
             .andThen(Effects.fetchUser),
             .andThen(Effects.pollInfo(userId))
