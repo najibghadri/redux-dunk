@@ -244,3 +244,6 @@ There are a couple of reasons why Effect should be an interface.
 2. Effects should be kept lightweight.
 3. It's better for the user, better DX. The user should be able to dunk an effect function so long the shape is an Effect without the need call the Effect(...) function (that would return an instance of a class).
 4. In my opinion using interfaces is better developing the library too. Interfaces are composable, and easy to follow, but using classes is a restriction imo (not just because we have to call `new`)
+
+Author
+[@najibghadri](https://github.com/najibghadri)
