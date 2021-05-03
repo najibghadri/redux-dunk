@@ -69,13 +69,13 @@ Each of these return an Effect so you can compose them.
         composeEnhancers(applyMiddleware(dunkMiddleware)),
     );
 ```
-#### 2. Create you effects in your effects file
+#### 2. Create your effects in your effects file
 To use the Effect creator/composer functions you need to import the `EffectCreators` function, then call it with your State type to get typed helpers.
 ```typescript
 const { Effect, EffectCreator } = EffectCreators<State>();
 ```
 
-#### 3. Use you effects in your reducers
+#### 3. Use your effects in your reducers
 Import your effects, and dunk them. You can import composers in your reducer if you need to:
 
 ```typescript
