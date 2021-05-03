@@ -1,6 +1,6 @@
 {
     "name": "redux-dunk",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Better effect middleware for redux",
     "repository": {
         "type": "git",
