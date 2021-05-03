@@ -129,7 +129,7 @@ case actions.startSetup.actionType: {
             Effects.fetchUser,
             Effects.pollInfo(userId)
         ),
-        Effects.setUpKeyboardListeners,
+        Effects.setUpListeners,
     ];
     return dunk(state, ...effects);
 }; 
