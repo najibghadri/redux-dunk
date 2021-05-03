@@ -1,0 +1,40 @@
+{
+  "name": "redux-dunk",
+  "version": "1.0.0",
+  "description": "Better effect middleware for redux",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prezi/redux-dunk.git"
+  },
+  "keywords": [
+    "redux",
+    "effect",
+    "middleware",
+    "redux-middleware",
+    "thunk",
+    "dunk",
+    "functional"
+  ],
+  "author": "Najib Ghadri",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/prezi/redux-dunk/issues"
+  },
+  "homepage": "https://github.com/prezi/redux-dunk#readme",
+  "devDependencies": {
+    "prettier": "^2.2.1",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^4.2.4"
+  }
+}
