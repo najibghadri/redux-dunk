@@ -83,20 +83,20 @@ const { Sequence, Delay, Catch } = EffectCreators<State>();
 ```
 
 ## Examples
-Example effects (some from Zoom App codebase): 
+Example effects: 
 ```typescript
-const setUpZoomSdk = Effect( async ({ dispatch }) => {
-    const configResponse = await zoomSdk.config({});
-    dispatch(actions.setRunningContext(configResponse.runningContext));
+const setUpSdk = Effect( async ({ dispatch }) => {
+    const configResponse = await sdk.config({});
+    dispatch(actions.setSdkStatus(configResponse.status));
 });
 
-const setUpPusher = EffectCreator((userId: UserId) => async ({ dispatch }) => {
-    const pvHandler: PVControllerHandler = {
-        onSession: session => {
-            dispatch(actions.updateSession(session));
-        },
-    };
-    connectPusherPvController(userId, pvHandler);
+const pollInfo = EffectCreator((userId: UserId) => async ({ dispatch }) => {
+    poll(() => fetch('something.json'), 2000, 150
+    ).then(res =>
+        dispatch(actions.pollStatus(res)
+    ).catch(err => 
+        dispatch(actions.pollFailed(err)
+    );
 });
 
 const fetchUser = Effect( async ({ dispatch }) => {
@@ -106,7 +106,7 @@ const fetchUser = Effect( async ({ dispatch }) => {
 });
 ```
 
-Now dunk effects. Usage examples in a reducer (some from ZoomApp codebase):
+Now dunk effects. Usage examples in a reducer:
 ```typescript
 return dunk(newState) // does nothing interesting
 return dunk(newState, Effects.doTheThing) // paramterless Effect
@@ -118,9 +118,10 @@ case actions.startSetup.actionType: {
      // compose effects to describe your flow in a testable way
     const effects = [
         Sequence(
-            Effects.setUpZoomSdk, 
+            Effects.setUpSdk, 
             Effects.authenticate(token), 
-            Effects.setOrGetUserInfo(userId)
+            Effects.fetchUser,
+            Effects.pollInfo(userId)
         ),
         Effects.setUpKeyboardListeners,
     ];
@@ -129,9 +130,10 @@ case actions.startSetup.actionType: {
 
     // you can also chain effects with dot notation api:
     const effects = [
-        Effects.setUpZoomSdk
-            .then(Effects.authenticate(token))
-            .then(Effects.setOrGetUserInfo(userId)),
+        Effects.setUpSdk
+            .andThen(Effects.authenticate(token))
+            .andThen(Effects.fetchUser),
+            .andThen(Effects.pollInfo(userId))
         Effects.setUpKeyboardListeners,
     ];
 ````
