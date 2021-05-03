@@ -5,16 +5,17 @@ export interface StoreApi<State> {
     dispatch: Dispatch<AnyAction>;
 }
 
-export type Effect<State = any, ActionType extends AnyAction = AnyAction, ReturnType = any> = EffectFunction<
+export type EffectType<State = any, ActionType extends AnyAction = AnyAction, ReturnType = any> = EffectFunction<
     State,
     ActionType,
     ReturnType
 > &
     EffectApi<State, ActionType, ReturnType>;
 
-export interface EffectFunction<State = any, ActionType extends AnyAction = AnyAction, ReturnType = any> {
-    (storeApi: { dispatch: Dispatch<ActionType>; getState: () => State }): Promise<ReturnType>;
-}
+export type EffectFunction<State = any, ActionType extends AnyAction = AnyAction, ReturnType = any> = (storeApi: {
+    dispatch: Dispatch<ActionType>;
+    getState: () => State;
+}) => Promise<ReturnType>;
 
 export interface EffectApi<State = any, ActionType extends AnyAction = AnyAction, ReturnType = any> {
     andThen: <NextReturnType = any>(
@@ -27,6 +28,7 @@ export interface EffectApi<State = any, ActionType extends AnyAction = AnyAction
         EffectApi<State, ActionType, NextReturnType | ReturnType>;
     // fold:
     // sleep:
+    // fmap?
 }
 
 let effectQueue: EffectFunction[] = [];
@@ -57,7 +59,7 @@ export function EffectCreators<State = any, ActionType extends AnyAction = AnyAc
         >(effect, effApi);
     }
 
-    function EffectCreator<Params extends Array<unknown> = [], ReturnType = any>(
+    function EffectCreator<Params extends unknown[] = [], ReturnType = any>(
         effectCreator: (
             ...params: Params
         ) => (storeApi: { dispatch: Dispatch<ActionType>; getState: () => State }) => Promise<ReturnType>,
