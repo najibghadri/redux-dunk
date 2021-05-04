@@ -17,7 +17,7 @@
 - [How it works](#how-effects-are-run-with-the-redux-store)  
 - [Comparison with redux-loop ➿](#comparison-with-redux-loop-)  
 
-Shape of an Effect:
+An effect is just an async function that takes the store's `dispatch` and `getState` function.
 
 ```typescript 
 async ({ dispatch, getState }) => any
@@ -28,6 +28,8 @@ Shape of an EffectCreator:
 ```typescript 
 (...extraParams) => async ({ dispatch, getState }) => any
 ```
+
+Effects are scheduled using `dunk(state, ...effects)` in the reducer. Calling `dunk` returns the state as it is. Effects start running after the reducer has updated the state.
 
 ## API
 
