@@ -15,6 +15,7 @@
 - [Usage](#usage)
 - [Examples](#examples)  
 - [How it works](#how-effects-are-run-with-the-redux-store)  
+- [Motivation](#motivation)  
 - [Comparison with redux-loop ➿](#comparison-with-redux-loop-)  
 
 **An Effect is just an async function that takes the store's `dispatch` and `getState` function.**
@@ -167,6 +168,10 @@ note
 - So far we haven't found a valid use case for using getState in an effect. If the effect needs parameters they should be provided with the effect creator as extra params. It might be useful to getState when you have a long-running effect that needs to check the state at later times.
 - avoid never-ending loops (action->reducer->effect->action->..) ⚠️ (same in loop)
 
+## Motivation
+
+Author Najib Ghadri [@najibghadri](https://github.com/najibghadri) created dunk to address the shortcomings of the existing redux effect libraries, while working on Prezi's Prezi Video UI. redux-loop has a good architecture, but has shortcomings (addressed below), redux-thunk doesn't let you separate actions from effect hence you can't run effects after a state change triggered by an action, although thunk provides dispatch, getState for the effects. On the other hand redux-saga seemed like heavy artillery.
+
 ## Comparison with redux-loop ➿
 
 Every loop is a dunk but not every dunk is a loop:
@@ -222,7 +227,6 @@ Architecturally both loop and dunk are very similar. The way to think about both
 - A Dunk Effect's type doesn't tell which actions will be dispatched if any (because you write whatever you want in the effect body), however a loop command tells you about the next actions in it's type.
 - More freedom in effects might lead to bad code? Loop has a strict view on effects which might work for you and might keep your codebase better structured if there are many developers working on it.
 
-
 ## Todos
  - More effect helpers (`Chain`, `Retry`, `Poll`, `Race`) - based on requests
  - `Cancelable`, `TakeOne` and other action trigger based complex Effects. (like saga) - based on requests
@@ -246,5 +250,3 @@ There are a couple of reasons why Effect should be an interface.
 2. Effects should be kept lightweight.
 3. It's better for the user, better DX. The user should be able to dunk an effect function so long the shape is an Effect without the need call the Effect(...) function (that would return an instance of a class).
 4. In my opinion using interfaces is better developing the library too. Interfaces are composable, and easy to follow, but using classes is a restriction imo (not just because we have to call `new`)
-
-Author [@najibghadri](https://github.com/najibghadri)
