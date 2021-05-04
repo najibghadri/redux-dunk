@@ -17,7 +17,7 @@
 - [How it works](#how-effects-are-run-with-the-redux-store)  
 - [Comparison with redux-loop ➿](#comparison-with-redux-loop-)  
 
-An effect is just an async function that takes the store's `dispatch` and `getState` function.
+**An effect is just an async function that takes the store's `dispatch` and `getState` function.**
 
 ```typescript 
 async ({ dispatch, getState }) => any
