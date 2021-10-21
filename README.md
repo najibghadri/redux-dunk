@@ -170,7 +170,7 @@ note
 
 ## Motivation
 
-Author Najib Ghadri ([@najibghadri](https://github.com/najibghadri)) created dunk to address the shortcomings of the existing redux effect libraries, while working on Prezi's Prezi Video UI. redux-loop has a good architecture, but has shortcomings (addressed below), redux-thunk doesn't let you separate actions from effect hence you can't run effects after a state change triggered by an action, although thunk provides dispatch, getState for the effects. On the other hand redux-saga seemed like heavy artillery.
+Dunk was created to address the shortcomings of the existing redux effect libraries, while working on Prezi's Prezi Video UI. redux-loop has a good architecture, but has shortcomings (addressed below), redux-thunk doesn't let you separate actions from effect hence you can't run effects after a state change triggered by an action, although thunk provides dispatch, getState for the effects. On the other hand redux-saga seemed like heavy artillery.
 
 ## Comparison with redux-loop ➿
 
