@@ -2,7 +2,6 @@
 
 <img width="350" src="https://user-images.githubusercontent.com/11639734/108255304-61ff8e00-715c-11eb-8dca-30544a097424.png">
 
-
 🏀 Effect middleware for redux, inspired by loop and thunk ➿ \
 *Schedule async functions from reducers to run after reducers using dispatch-getstate store api.*
 
@@ -149,6 +148,9 @@ case actions.startSetup.actionType: {
 With dunk you can express business logic by composing effects together.
 
 ## How effects are run with the redux store?
+
+![image](https://user-images.githubusercontent.com/11639734/153753132-6df3f2bc-1b81-42ab-b9b0-d342fc56bbe0.png)
+
 
  1. There is a dispatch(action) somewhere
  2. action goes to reducer 
