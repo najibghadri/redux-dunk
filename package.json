@@ -1,10 +1,10 @@
 {
     "name": "redux-dunk",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Better effect middleware for redux",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/prezi/redux-dunk.git"
+        "url": "git+https://github.com/najibghadri/redux-dunk.git"
     },
     "keywords": [
         "redux",
@@ -18,9 +18,9 @@
     "author": "Najib Ghadri",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/prezi/redux-dunk/issues"
+        "url": "https://github.com/najibghadri/redux-dunk/issues"
     },
-    "homepage": "https://github.com/prezi/redux-dunk#readme",
+    "homepage": "https://github.com/najibghadri/redux-dunk#readme",
     "main": "lib/dunk.js",
     "types": "lib/dunk.d.ts",
     "scripts": {
